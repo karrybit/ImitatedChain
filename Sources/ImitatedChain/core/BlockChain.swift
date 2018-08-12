@@ -9,9 +9,12 @@ import Foundation
 import CryptoSwift
 
 final class BlockChain {
+    let shared = BlockChain()
     private var blocks: [Block] = []
     var latestIndex: Int { return blocks.count - 1 }
     var latestBlock: Block { return blocks.last! }
+    
+    private init() {}
     
     func createGenesisBlock(by merkleRoot: String) {
         let sha3 = SHA3(variant: .sha512)
