@@ -8,12 +8,12 @@
 import Foundation
 
 final class BlockHeader {
-    let previousHash: String
-    let blockHash: String
-    let merkleRoot: String
+    var previousHash: String
+    var blockHash: String
+    var merkleRoot: String
     let stateRoot: String = ""
-    let nonce: Int
-    let timeStamp: Date
+    var nonce: Int
+    var timeStamp: Date
     
     init(previousHash: String, blockHash: String, merkleRoot: String, nonce: Int, timeStamp: Date) {
         self.previousHash = previousHash;

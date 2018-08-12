@@ -8,12 +8,12 @@
 import Foundation
 
 final class Block {
-    private let height: Int = 0
-    private let blockHeader: BlockHeader;
-    private var transactions: [Transaction] = [];
+    let height: Int = 0
+    let header: BlockHeader;
+    var transactions: [Transaction] = [];
     
     init(previousHash: String, blockHash: String, merkleRoot: String, nonce: Int, timeStamp: Date) {
-        self.blockHeader = BlockHeader(previousHash: previousHash,
+        self.header = BlockHeader(previousHash: previousHash,
                                        blockHash: blockHash,
                                        merkleRoot: merkleRoot,
                                        nonce: nonce, timeStamp: timeStamp)
