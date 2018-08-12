@@ -9,8 +9,13 @@ import Foundation
 
 final class Block {
     private let height: Int = 0
-    // TODO: Transactionの配列に変える
-    private var transactions: [Int] = [];
+    private let blockHeader: BlockHeader;
+    private var transactions: [Transaction] = [];
     
-    // private blockHeader: BlockHeader;
+    init(previousHash: String, blockHash: String, merkleRoot: String, nonce: Int, timeStamp: Date) {
+        self.blockHeader = BlockHeader(previousHash: previousHash,
+                                       blockHash: blockHash,
+                                       merkleRoot: merkleRoot,
+                                       nonce: nonce, timeStamp: timeStamp)
+    }
 }
