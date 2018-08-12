@@ -20,11 +20,12 @@ final class BlockChain {
         let sha3 = SHA3(variant: .sha512)
         let digest = sha3.calculate(for: "genesis block".bytes)
         let hash = "0x" + digest.reduce("") { $0 + String(format: "%02x", $1) }
-        let block = Block(preHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-                          merkleRoot: merkleRoot)
-        block.header.hash = hash
-        block.header.nonce = 42
-        block.header.timeStamp = Date()
+        let header = BlockHeader(hash: hash,
+                                 preHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                 merkleRoot: merkleRoot,
+                                 nonce: 42,
+                                 timeStamp: Date())
+        let block = Block(header: header)
         blocks.append(block)
     }
     

@@ -7,16 +7,11 @@
 
 import Foundation
 
-final class BlockHeader {
-    var preHash: String
-    var hash: String?
-    var merkleRoot: String
+struct BlockHeader {
+    let hash: String
+    let preHash: String
+    let merkleRoot: String
     let stateRoot: String = ""
-    var nonce: Int?
-    var timeStamp: Date?
-    
-    init(preHash: String, merkleRoot: String) {
-        self.preHash = preHash;
-        self.merkleRoot = merkleRoot;
-    }
+    let nonce: Int
+    let timeStamp: Date
 }
