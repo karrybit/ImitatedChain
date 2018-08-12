@@ -4,9 +4,8 @@ let merkleRoot: String = "0x0"
 BlockChain.shared.createGenesisBlock(by: merkleRoot)
 
 for _ in 0..<10 {
-    let PoW = ProofOfWork(merkleRoot: merkleRoot);
     let block = Block(preHash: BlockChain.shared.latestBlock.header.hash!, merkleRoot: merkleRoot)
-    let acceptedBlock = PoW.exec(for: block)
+    let acceptedBlock = ProofOfWork.exec(for: block)
     BlockChain.shared.append(acceptedBlock)
 }
 

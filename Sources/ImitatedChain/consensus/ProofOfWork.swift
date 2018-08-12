@@ -12,13 +12,13 @@ struct ProofOfWork {
     // TODO: targetの計算
     private let target = "0001000000111111111111111111111111111111111111111111111111111111"
     
-    func exec(for block: Block) -> Block {
+    static func exec(for block: Block) -> Block {
         var hash = ""
         var nonce = 0
         var timeStamp = Date()
         
         while true {
-            hash = calcHash(nonce: nonce, timeStamp: timeStamp)
+            hash = ProofOfWork.calcHash(nonce: nonce, timeStamp: timeStamp)
             if target > hash { break }
             nonce += 1
             timeStamp = Date()
@@ -30,7 +30,7 @@ struct ProofOfWork {
         return block
     }
     
-    func calcHash(nonce: Int, timeStamp: Date) -> String {
+    static func calcHash(nonce: Int, timeStamp: Date) -> String {
         let rawData: String = BlockChain.shared.latestBlock.header.hash! + merkleRoot + String(nonce) + String(Int(timeStamp.timeIntervalSince1970))
         let sha3 = SHA3(variant: .sha512)
         let digest = sha3.calculate(for: rawData.bytes)
