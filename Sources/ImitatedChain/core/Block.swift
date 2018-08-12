@@ -9,8 +9,8 @@ import Foundation
 
 struct Block {
     let height: Int = 0
-    let header: BlockHeader;
-    var transactions: [Transaction] = [];
+    let header: BlockHeader
+    var transactions: [Transaction] = []
     
     init(preHash: String, merkleRoot: String) {
         self.header = BlockHeader(preHash: preHash, merkleRoot: merkleRoot)

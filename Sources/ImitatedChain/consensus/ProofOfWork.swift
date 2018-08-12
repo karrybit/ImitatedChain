@@ -10,16 +10,11 @@ import CryptoSwift
 
 struct ProofOfWork {
     // TODO: targetの計算
-    private let target = "0001000000111111111111111111111111111111111111111111111111111111";
-    private let merkleRoot: String;
-    
-    init(merkleRoot: String) {
-        self.merkleRoot = merkleRoot;
-    }
+    private let target = "0001000000111111111111111111111111111111111111111111111111111111"
     
     func exec(for block: Block) -> Block {
-        var hash = "";
-        var nonce = 0;
+        var hash = ""
+        var nonce = 0
         var timeStamp = Date()
         
         while true {
@@ -32,7 +27,7 @@ struct ProofOfWork {
         block.header.nonce = nonce
         block.header.timeStamp = timeStamp
         block.header.hash = hash
-        return block;
+        return block
     }
     
     func calcHash(nonce: Int, timeStamp: Date) -> String {
