@@ -26,34 +26,33 @@ class MerkleTree {
         
         /// 2のべき乗数分になったhashでnodeを作成する
         let result: [MerkleNode] = (hashes + list).map { MerkleNode(hash: $0) }
-        return assembleMerkleTree(by: result);
+        return assembleMerkleTree(by: result)
     }
     
-    private static func assembleMerkleTree(by nodeList: [MerkleNode]) -> MerkleTree {
-        // 最後のハッシュ
+    private static func buildMerkleTree(by nodeList: [MerkleNode]) -> MerkleTree {
         if nodeList.count == 1 {
             return MerkleTree(root: nodeList.first!)
             
         } else {
-            let count = nodeList.count
-            var newLevelHashes: [MerkleNode] = []
-            
-            var i = 0
-            
-            // 新しいハッシュとノード作成
-            while(count - 2 >= i) {
-                let left = nodeList[i]
-                let right = nodeList[i + i]
-                // 結合
-                let newHash = left.hash.hexString + right.hash.hexString
-                let node = MerkleNode(hash: MerkleHash(dataString: newHash))
-                node.left = left
-                node.right = right
-                newLevelHashes.append(node)
-                i += 2;
+            func loop(list: inout [MerkleNode]) -> MerkleNode {
+                if list.count == 1 { return list[0] }
+                
+                var higherLevelNodes: [MerkleNode] = []
+                for i in stride(from: 0, to: list.count, by: 2) {
+                    let left = list[i]
+                    let right = list[i + i]
+                    let node = MerkleNode(hash: MerkleHash(dataString: left.hash.hexString + right.hash.hexString))
+                    node.left = left
+                    node.right = right
+                    
+                    higherLevelNodes.append(node)
+                }
+                
+                return loop(list: &higherLevelNodes)
             }
             
-            return assembleMerkleTree(by: newLevelHashes);
+            var argList = nodeList
+            return MerkleTree(root: loop(list: &argList))
         }
     }
 }
