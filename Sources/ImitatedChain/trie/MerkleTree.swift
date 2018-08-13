@@ -14,8 +14,18 @@ class MerkleTree {
     
     static func createMerkleTree(by hashes: [MerkleHash]) -> MerkleTree {
         if hashes.isEmpty { fatalError("Cannot calculate Merkle root on empty hash list.") }
-        while(!hashes.count.isPow2) { hashes.append(hashes.last!) }
-        let result: [MerkleNode] = hashes.map { MerkleNode(hash: $0) }
+        
+        /// hashesの要素数とその数以上の最小の2のべき乗の値との差を求める
+        var offset = 0
+        while(!(hashes.count + offset).isPow2) { offset += 1 }
+        
+        /// hashesの要素数が2のべき乗になるように、最後の要素をappendする
+        var list: [MerkleHash] = []
+        let last = hashes.last!
+        (0...offset).forEach { _ in list.append(last) }
+        
+        /// 2のべき乗数分になったhashでnodeを作成する
+        let result: [MerkleNode] = (hashes + list).map { MerkleNode(hash: $0) }
         return assembleMerkleTree(by: result);
     }
     
@@ -25,7 +35,7 @@ class MerkleTree {
             return MerkleTree(root: nodeList.first!)
             
         } else {
-            var count = nodeList.count
+            let count = nodeList.count
             var newLevelHashes: [MerkleNode] = []
             
             var i = 0
@@ -35,8 +45,8 @@ class MerkleTree {
                 let left = nodeList[i]
                 let right = nodeList[i + i]
                 // 結合
-                let newHash = left.hesh.hexString + right.hash.hexString
-                var node = MerkleNode(hash: newHash)
+                let newHash = left.hash.hexString + right.hash.hexString
+                let node = MerkleNode(hash: MerkleHash(dataString: newHash))
                 node.left = left
                 node.right = right
                 newLevelHashes.append(node)

@@ -9,8 +9,8 @@ import Foundation
 
 class MerkleNode {
     let hash: MerkleHash
-    private var left: MerkleNode?
-    private var right: MerkleNode?
+    var left: MerkleNode?
+    var right: MerkleNode?
     
     init(hash: MerkleHash) { self.hash = hash }
 }
